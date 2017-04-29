@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hip Hop Hangman</title>
+
+</head>
+
+<body>
+    <h1>Hip Hop Hangman</h1>
+    <div id="wins"> </div>
+    <div id="rappers-displayed">  </div>
+    <div id="guess-remain">
+    </div>
+    <div id="used-letters"></div>
+</body>
+
+</html>
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+var runProgram = $(document).ready(function() {
+
+    var rappers = ["chancetherapper", "biggie", "tupac", "kanye", ];
+    var guessCount = 8;
+    var usedLetters = [""];
+    var rappersDisplayed = rappers[Math.floor(Math.random() * rappers.length)];
+    var blanks = rappersDisplayed.split("").map(function() {
+        return "_"
+    });
+    var wins = 0;
+    document.getElementById("wins").innerHTML = wins;
+    document.getElementById("rappers-displayed").innerHTML = blanks.join(" ");
+    document.getElementById("guess-remain").innerHTML = guessCount;
+    document.getElementById("used-letters").innerHTML = usedLetters;
+
+    document.onkeyup = function(event) {
+        var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+        console.log(userGuess);
+        var index = rappersDisplayed.indexOf(userGuess);
+
+        //BLANK ARRAY BY POSITION OF INDEX
+        while (index > -1) {
+            blanks[index] = userGuess;
+            document.getElementById("rappers-displayed").innerHTML = blanks.join(" ");
+            index = rappersDisplayed.indexOf(userGuess, index + 1);
+        };
+
+        //STOPS COUNTING WRONG LETTERS | ADDS LETTERS TO ARRY | 
+        if (rappersDisplayed.indexOf(userGuess) == -1) {
+            if (usedLetters.indexOf(userGuess) == -1) {
+                usedLetters.push(userGuess);
+                guessCount--;
+                document.getElementById("guess-remain").innerHTML = guessCount;
+            };
+
+            document.getElementById("used-letters").innerHTML =
+                usedLetters.join(" ");
+        };
+
+        if(blanks.indexOf("_") == -1){
+                wins++;
+                document.getElementById("wins").innerHTML = wins;
+                displayedBand = rappers[Math.floor(Math.random() * rappers.length)];
+                blanks = rappersDisplayed.split("").map(function(){return "_"});
+                document.getElementById("rappers-displayed").innerHTML = blanks.join(" ");
+                guessCount = 10;
+                document.getElementById("guess-remain").innerHTML = guessCount;
+                usedLetters = [ ];
+                document.getElementById("used-letters").innerHTML = 
+                                                            usedLetters.join(" ");
+            };
+
+            if(guessCount == 0){
+                rappersDisplayed = rappers[Math.floor(Math.random() * rappers.length)];
+                blanks = rappersDisplayed.split("").map(function(){return "_"});
+                document.getElementById("rappers-displayed").innerHTML = blanks.join(" ");
+                guessCount = 10;
+                document.getElementById("guess-remain").innerHTML = guessCount;
+                usedLetters = [ ];
+                document.getElementById("used-letters").innerHTML = 
+                                                            usedLetters.join(" ");
+            };
+
+
+
+
+
+
+
+    };
+
+
+
+});
+</script>
